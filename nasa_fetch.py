@@ -2,7 +2,7 @@ import requests
 import json
 import boto3
 
-API_KEY = "w7AKv07MEk4vpPoEQ0rD1fm1Gf7cK0IXwXYXahfW"
+API_KEY = "your_nasa_api_key_here"
 
 url = f"https://api.nasa.gov/planetary/apod?api_key={API_KEY}"
 response = requests.get(url)
