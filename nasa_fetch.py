@@ -1,23 +1,20 @@
-import requests
 import json
+import urllib.request
 import boto3
-
 import os
-API_KEY = os.environ.get("NASA_API_KEY")
 
-url = f"https://api.nasa.gov/planetary/apod?api_key={API_KEY}"
-response = requests.get(url)
-data = response.json()
+def lambda_handler(event, context):
+    api_key = os.environ.get("NASA_API_KEY")
+    url = f"https://api.nasa.gov/planetary/apod?api_key={api_key}"
 
-print("Title:", data["title"])
-print("Date:", data["date"])
+    with urllib.request.urlopen(url) as response:
+        data = json.loads(response.read().decode())
 
-# Save to S3
-s3 = boto3.client("s3", region_name="us-east-1")
-s3.put_object(
-    Bucket="nasa-space-data-gaya3",
-    Body=json.dumps(data),
-    Key="nasa_data.json"
-)
+    s3 = boto3.client("s3", region_name="us-east-1")
+    s3.put_object(
+        Bucket="nasa-space-data-gaya3",
+        Body=json.dumps(data),
+        Key=f"raw/{data['date']}.json"
+    )
 
-print("Data saved to S3!")
+    return {"statusCode": 200, "body": f"Saved {data['date']}"}
