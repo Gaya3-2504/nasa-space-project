@@ -1,1 +1,11 @@
-
+Sample JSON file created successfully!
+{
+    "copyright": "Julien Looten",
+    "date": "2026-07-06",
+    "explanation": "What are these two bands in the sky? The more commonly seen band is on the left and is the central band of our Milky Way galaxy...",
+    "hdurl": "https://apod.nasa.gov/apod/image/2607/ZodiMw_Looten_6125.jpg",
+    "media_type": "image",
+    "service_version": "v1",
+    "title": "Dueling Bands over the Atacama Desert",
+    "url": "https://apod.nasa.gov/apod/image/2607/ZodiMw_Looten_960.jpg"
+}
