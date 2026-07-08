@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NASA Space Data Pipeline</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b0c1a;
+      color: #f0f0f0;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    input, button {
+      padding: 8px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    #explanation {
+      text-align: left;
+      margin-top: 20px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+ 
+  <h1>NASA Astronomy Picture of the Day</h1>
+ 
+  <input type="date" id="datePicker">
+  <button onclick="loadByDate()">Search</button>
+ 
+  <h2 id="title">Loading...</h2>
+  <p id="date"></p>
+  <img id="image" src="" alt="">
+  <p id="explanation"></p>
+ 
+  <script>
+    const API_URL = "https://your-api-id.execute-api.us-east-1.amazonaws.com";
+ 
+    const sampleData = {
+      title: "Sample: The Andromeda Galaxy",
+      date: "2026-07-09",
+      image_url: "https://apod.nasa.gov/apod/image/2504/Andromeda_Rector_960.jpg",
+      explanation: "This is sample data shown because the live API isn't deployed yet. Once you deploy API Gateway, real NASA data will load here automatically."
+    };
+ 
+    async function loadLatest() {
+      try {
+        const response = await fetch(`${API_URL}/apod/latest`);
+        const data = await response.json();
+        showData(data);
+      } catch (err) {
+        showData(sampleData);
+      }
+    }
+ 
+    async function loadByDate() {
+      const date = document.getElementById("datePicker").value;
+      if (!date) return;
+      try {
+        const response = await fetch(`${API_URL}/apod/${date}`);
+        const data = await response.json();
+        showData(data);
+      } catch (err) {
+        showData(sampleData);
+      }
+    }
+ 
+    function showData(data) {
+      document.getElementById("title").innerText = data.title || "Not found";
+      document.getElementById("date").innerText = data.date || "";
+      document.getElementById("image").src = data.image_url || "";
+      document.getElementById("explanation").innerText = data.explanation || "";
+    }
+ 
+    loadLatest();
+  </script>
+ 
+</body>
+</html>
+ 
